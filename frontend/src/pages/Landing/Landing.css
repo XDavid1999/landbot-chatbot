@@ -1,0 +1,106 @@
+/* frontend/src/pages/Landing.css */
+
+.landing-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: url('/path-to-your-background-image.jpg') center center / cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay for better text readability */
+    z-index: 1;
+  }
+  
+  .content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    animation: fadeInUp 1s ease-out;
+  }
+  
+  .main-title {
+    color: #fff;
+    font-size: 3rem;
+    font-weight: 700;
+    animation: slideInDown 1s ease-out;
+  }
+  
+  .main-title span {
+    color: #1890ff; /* Ant Design primary color */
+  }
+  
+  .subtitle {
+    color: #f0f0f0;
+    font-size: 1.5rem;
+    max-width: 600px;
+    animation: fadeIn 1.5s ease-out;
+  }
+  
+  .login-button {
+    background-color: #1890ff;
+    border: none;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  .login-button:hover {
+    background-color: #40a9ff;
+    transform: translateY(-3px);
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .main-title {
+      font-size: 2.5rem;
+    }
+  
+    .subtitle {
+      font-size: 1.2rem;
+      padding: 0 20px;
+    }
+  
+    .login-button {
+      width: 80%;
+    }
+  }
+  

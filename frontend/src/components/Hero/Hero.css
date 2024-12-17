@@ -1,0 +1,18 @@
+.hero-section {
+    min-height: calc(100vh - 64px - 80px); /* Full viewport height minus header and footer heights */
+    padding: 100px 50px;
+    background: #f0f2f5;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .hero-row {
+    width: 100%;
+  }
+  
+  .hero-content {
+    max-width: 600px;
+  }
+  

@@ -1,0 +1,38 @@
+.footer {
+    text-align: center;
+    background: #001529;
+    color: #fff;
+    padding: 20px 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .footer-link {
+    color: #fff;
+    margin: 0 10px;
+  }
+  .footer-link:hover {
+    color: #646cff;
+  }
+  
+  .social-icons {
+    margin: 20px 0;
+  }
+  
+  .social-icons .anticon {
+    font-size: 24px;
+    color: #fff;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+  .social-icons .anticon:hover {
+    color: #646cff;
+  }
+  
+  .footer-text {
+    margin-top: 10px;
+  }
+  
