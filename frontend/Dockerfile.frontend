@@ -1,0 +1,11 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+COPY . /app
+COPY entrypoint.sh /
+
+RUN chmod +x /entrypoint.sh
+
+# Make the entrypoint executable
+ENTRYPOINT ["/entrypoint.sh"]

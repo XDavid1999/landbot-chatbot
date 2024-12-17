@@ -1,0 +1,72 @@
+# General Python ignores
+__pycache__/
+*.py[cod]
+*.sqlite3
+db.sqlite3
+*.env
+.env/
+*.log
+local_settings.py
+.env.*.local
+*.pyproj
+
+# Django specific
+/static/
+/media/
+/migrations/
+!/migrations/__init__.py
+
+# Django logs and cache
+*.log
+*.pot
+*.pyc
+local_settings.py
+db.sqlite3
+cache/
+pip-log.txt
+
+# Virtual Environments
+venv/
+ENV/
+env/
+.virtualenv/
+*.egg-info/
+.installed.cfg
+
+# Node.js specific (React)
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+
+# Build files
+/build/
+/dist/
+/coverage/
+/public/static/
+/public/media/
+/public/local/
+
+# Production environment overrides
+!*/README.md
+.env.local
+
+# React specific
+.DS_Store
+package-lock.json
+yarn.lock
+*.bundle
+*.tsbuildinfo
+
+# Debug files
+.vscode/
+.idea/
+*.iml
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+.DS_Store
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk

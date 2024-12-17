@@ -1,0 +1,68 @@
+services:
+  postgres:
+    container_name: chatbot-postgres
+    image: postgres:16.0-alpine
+    restart: always
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "${POSTGRES_USER}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+
+  redis:
+    container_name: chatbot-redis
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  backend:
+    container_name: chatbot-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    env_file:
+      - .env
+    volumes:
+      - ./backend/:/app
+      - ./backend/logs:/app/logs
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - ${BACKEND_API_PORT}:${BACKEND_API_PORT}
+
+  frontend:
+    container_name: chatbot-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - VUE_APP_BACKEND_API_PORT=${BACKEND_API_PORT}
+    env_file:
+      - .env
+    volumes:
+      - ./frontend:/app
+    ports:
+      - ${FRONTEND_PORT}:${FRONTEND_PORT}
+
+volumes:
+  pgdata:
+  media:
+  static:
