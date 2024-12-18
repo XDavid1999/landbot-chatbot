@@ -3,6 +3,7 @@ from dispatcher.services.notification_wrapper import NotificationWrapper
 from dispatcher.models import Topic
 import logging
 from typing import Any
+from dispatcher.settings import NOTIFICATION_RETY_TIME
 
 logger = logging.getLogger(__name__)
 
@@ -35,4 +36,4 @@ def send_notification(self, topic_id: int, message: str, **kwargs: Any) -> None:
             logger.error(f"Topic with ID {topic_id} not found.")
         except Exception as e:
             logger.error(f"Error sending topic ID {topic_id}: {e}")
-        raise self.retry(exc=e, countdown=60)
+        raise self.retry(exc=e, countdown=NOTIFICATION_RETY_TIME)
