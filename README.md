@@ -245,11 +245,11 @@ class Notification(TimestampedModel):
 - **Status** (`Sent`, `Failed`, `Retrying`).
 - **Metadata** (recipient, timestamp, error message).
 
-##### Why Use Elasticsearch for Logs?
-- **Full-Text Search:** Elasticsearch provides a fast and powerful search interface to query logs, perfect for filtering and analyzing large datasets.
-- **Centralized Logging:** Store all logs in Elasticsearch to aggregate notifications, API errors, and task retries in one place.
-- **Real-Time Analytics:** Elasticsearch enables dashboards (via Kibana) to visualize metrics like message delivery success rates or performance by platform in real time.
-- **Scalability:** Unlike relational databases, Elasticsearch is optimized for large-scale read and write operations, making it ideal for log management.
+    ##### Why Use Elasticsearch for Logs?
+    - **Full-Text Search:** Elasticsearch provides a fast and powerful search interface to query logs, perfect for filtering and analyzing large datasets.
+    - **Centralized Logging:** Store all logs in Elasticsearch to aggregate notifications, API errors, and task retries in one place.
+    - **Real-Time Analytics:** Elasticsearch enables dashboards (via Kibana) to visualize metrics like message delivery success rates or performance by platform in real time.
+    - **Scalability:** Unlike relational databases, Elasticsearch is optimized for large-scale read and write operations, making it ideal for log management.
 
 #### Cross-Platform Communication via WebSocket Responses
 
