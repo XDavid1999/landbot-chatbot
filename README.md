@@ -101,46 +101,52 @@ This project enables sending notifications via multiple channels (Email, Slack, 
 
 ---
 
-## 🚀 Example Python Usage (Equivalent on django admin)
+## 🚀 Example: Adding a New Service via Django Admin or Migrations
 
-### 1. Create a Notification
-Add a new notification configuration:
-```python
-from dispatcher.models import Notification
+### 1. Add a Notification via Admin Panel  
+- Go to the **Django Admin** panel and navigate to the **Notifications** section.  
+- Create a new Notification by selecting a `method` (e.g., **Email**, **Slack**, or **Telegram**) and configuring the appropriate `config` field with JSON, like:  
 
-notification = Notification.objects.create(
-    method=Notification.EMAIL,
-    config={
-        "recipient_list": ["user@example.com"],
-        "subject": "Welcome Notification"
-    },
-)
+```json
+{
+    "recipient_list": ["user@example.com"],
+    "subject": "Welcome Notification"
+}
 ```
 
-### 2. Create a Topic
-Associate the notification with a topic:
-```python
-from dispatcher.models import Topic
+---
 
-topic = Topic.objects.create(
-    name="Welcome",
-    description="Notifications sent to users when they first sign up",
-    notification=notification,
-)
+### 2. Add a Notification via Migrations  
+Alternatively, use a **migration script** to define a new Notification:
+
+```python
+from django.db import migrations
+
+def create_notification(apps, schema_editor):
+    Notification = apps.get_model("dispatcher", "Notification")
+    notification = Notification.objects.create(
+        method="Email",
+        config={
+            "recipient_list": ["user@example.com"],
+            "subject": "Welcome Notification",
+        },
+    )
+
+class Migration(migrations.Migration):
+    dependencies = [
+        ("dispatcher", "XXXX_dependency")
+    ]
+
+    operations = [
+        migrations.RunPython(create_notification),
+    ]
 ```
 
-### 3. Send a Notification
-Use the appropriate service to dispatch the notification:
-```python
-from dispatcher.services.email import EmailService
+---
 
-email_service = EmailService()
-email_service.send(
-    message="Welcome to our platform!",
-    recipient_list=["user@example.com"],
-    subject="Hello!"
-)
-```
+### 3. Assign Notifications to Topics  
+Use the Admin or migration scripts to associate a Notification with a **Topic**, making it reusable across events.
+
 
 ---
 
