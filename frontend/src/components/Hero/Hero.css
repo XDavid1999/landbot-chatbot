@@ -1,5 +1,5 @@
 .hero-section {
-    min-height: calc(100vh - 64px - 80px); /* Full viewport height minus header and footer heights */
+    min-height: 60vh;
     padding: 100px 50px;
     background: #f0f2f5;
     text-align: center;

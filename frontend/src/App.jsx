@@ -21,9 +21,9 @@ const App = () => {
           <Routes>
             <Route path="/" element={
               <Content className="content">
-                <Hero />
+                {/* <Hero /> */}
                 <Features />
-                </Content>
+              </Content>
             } />
             <Route path="*" element={<Landing />} />
           </Routes>

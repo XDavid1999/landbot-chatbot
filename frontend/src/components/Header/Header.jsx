@@ -17,15 +17,11 @@ const Header = () => {
   };
 
   const menuItems = [
-    { key: 'home', label: 'Home' },
-    { key: 'features', label: 'Features' },
-    { key: 'pricing', label: 'Pricing' },
-    { key: 'contact', label: 'Contact' },
   ];
 
   return (
     <AntHeader className="header">
-      <div className="logo">MyLogo</div>
+      <div className="logo">Landbot Challenge</div>
       <div className="desktop-menu">
         <Menu theme="dark" mode="horizontal" items={menuItems} />
       </div>
