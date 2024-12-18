@@ -1,11 +1,17 @@
-from django.core.mail import send_mail
+from django.core import mail
 from dispatcher.services.mixins import ServiceInterfaceMixin
+import dataclasses
+
+
+@dataclasses.dataclass
+class EmailRequirements:
+    recipient_list: list
 
 
 class EmailService(ServiceInterfaceMixin):
 
-    def __init__(self, **kwargs):
-        pass
+    def __init__(self, message, **kwargs):
+        super().__init__(message, **kwargs)
 
     def connect(self, **kwargs):
         pass
@@ -14,10 +20,11 @@ class EmailService(ServiceInterfaceMixin):
         pass
 
     def validate(self, **kwargs):
-        required_fields = ["subject", "message", "from_email", "recipient_list"]
+        required_fields = ["recipient_list"]
         return all([field in kwargs for field in required_fields])
 
     def send(self, **kwargs):
         if not self.validate(**kwargs):
             raise ValueError("Invalid email data")
-        send_mail(**kwargs)
+        subject = kwargs.get("subject", f"{self.message[:10]}...")
+        mail.send_mail(message=self.message, subject=subject, **kwargs)

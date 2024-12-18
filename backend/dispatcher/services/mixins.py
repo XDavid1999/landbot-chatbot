@@ -3,8 +3,8 @@ import os
 
 
 class ServiceInterfaceMixin(ABC):
-    def __init__(self, *args, **kwargs):
-        pass
+    def __init__(self, message, *args, **kwargs):
+        self.message = message
 
     @abstractmethod
     def send(self, *args, **kwargs):
