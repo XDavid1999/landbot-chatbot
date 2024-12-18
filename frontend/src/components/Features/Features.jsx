@@ -76,7 +76,7 @@ const Features = () => {
   return (
     <section className="features-section">
       <Title level={2} className="features-title">
-        Our Features
+        Testing Topics
       </Title>
       
       {/* Textbox for Description */}
@@ -86,6 +86,7 @@ const Features = () => {
           placeholder="Enter description..."
           value={description}
           onChange={(e) => setDescription(e.target.value)}
+          required
         />
       </div>
       
