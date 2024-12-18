@@ -65,7 +65,7 @@ class ServiceInterfaceMixin(ABC):
         """
         value = os.getenv(key)
         if value is None:
-            raise KeyError(f"Environment variable '{key}' not found.")
+            raise KeyError(f"The secret '{key}' is not set")
         return value
 
     def __enter__(self) -> "ServiceInterfaceMixin":
