@@ -1,28 +1,28 @@
-from dispatcher.models import Notification
+from dispatcher.models import Topic
 from typing import Any
 
 
 class NotificationWrapper:
     """
-    Wrapper for handling the notification sending process.
+    Wrapper for handling the topic sending process.
     """
 
-    def __init__(self, notification: Notification, message: str) -> None:
+    def __init__(self, topic: Topic, message: str) -> None:
         """
-        Initializes the wrapper with a notification and message.
+        Initializes the wrapper with a topic and message.
 
         Args:
-            notification (Notification): The notification instance.
+            topic (Topic): The topic instance.
             message (str): The message to send.
         """
-        self.notification = notification
+        self.topic = topic
         self.message = message
-        service_class = self.notification.get_service()
-        self.client = service_class(message=self.message, **self.notification.config)
+        service_class = self.topic.notification.get_service()
+        self.client = service_class(message=self.message, **self.topic.config)
 
     def send(self, *args: Any, **kwargs: Any) -> None:
         """
-        Sends the notification using the appropriate service.
+        Sends the topic using the appropriate service.
 
         Args:
             *args: Variable length argument list.

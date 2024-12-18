@@ -36,17 +36,14 @@ class Dispatcher(viewsets.ViewSet):
             message: str = serializer.validated_data["description"]
             topic_id: int = serializer.validated_data["topic_id"]
 
-            notifications = Notification.objects.filter(topic_id=topic_id)
-            if not notifications.exists():
+            topic = Topic.objects.filter(name=topic_id)
+            if not topic.exists():
                 return Response(
                     {"message": "No notifications found for this topic"},
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
-            for notification in notifications:
-                send_notification.delay(
-                    notification_id=notification.id, message=message
-                )
+            send_notification.delay(topic_id=topic_id.id, message=message)
 
             return Response(
                 {"message": "Notifications sent"}, status=status.HTTP_200_OK

@@ -15,6 +15,6 @@ router.register(r"notifications", NotificationViewSet)
 
 # The API URLs are now determined automatically by the router.
 dispatcher_urlpatterns = [
-    path("dispatcher/", Dispatcher.as_view({"post": "post"})),
+    path("resolve/", Dispatcher.as_view({"post": "post"})),
     path("", include(router.urls)),
 ]

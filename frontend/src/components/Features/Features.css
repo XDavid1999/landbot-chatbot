@@ -1,30 +1,30 @@
-/* src/components/Features.css */
-
 .features-section {
-    padding: 50px;
-    background: #fff;
-    text-align: center;
-  }
-  
-  .features-title {
-    margin-bottom: 40px;
-    color: #242424;
-  }
-  
-  .feature-card {
-    background-color: #f9f9f9;
-    border: none;
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  
-  .feature-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
-  
-  .feature-icon {
-    font-size: 48px;
-    color: #08c;
-    margin-bottom: 20px;
-  }
-  
+  margin-top: 20px;
+  padding: 100px;
+  background: #fff;
+  text-align: center;
+  height: 90vh;
+}
+
+.features-title {
+  margin-bottom: 40px;
+  color: #242424;
+}
+
+.feature-card {
+  background-color: #f9f9f9;
+  border: none;
+  margin: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.feature-icon {
+  font-size: 48px;
+  color: #08c;
+  margin-bottom: 20px;
+}

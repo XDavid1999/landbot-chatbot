@@ -5,11 +5,6 @@ from dispatcher.services.slack import SlackService, SlackRequirements
 from dispatcher.services.email import EmailService, EmailRequirements
 
 
-class Topic(TimestampedModel):
-    name = models.CharField(unique=True, max_length=255)
-    description = models.TextField()
-
-
 class Notification(TimestampedModel):
     EMAIL = "Email"
     SLACK = "Slack"
@@ -21,7 +16,6 @@ class Notification(TimestampedModel):
         (TELEGRAM, "Telegram"),
     ]
 
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     method = models.CharField(
         max_length=255,
         choices=METHOD_CHOICES,
@@ -30,20 +24,17 @@ class Notification(TimestampedModel):
     )
     config = models.JSONField()
 
-    def validate(self, attrs):
-        method = attrs.get("method")
-        config = attrs.get("config")
+    def __str__(self):
+        return f"{self.method} notification for {self.topic}"
 
+    def validate(self, instance):
         matches = {
             Notification.TELEGRAM: TelegramRequirements,
             Notification.SLACK: SlackRequirements,
             Notification.EMAIL: EmailRequirements,
         }
-
-        if not isinstance(config, matches[method]):
-            raise ValueError(f"Invalid config for {method}")
-
-        return attrs
+        matches[instance.method](**instance.config)
+        return instance
 
     def save(self, *args, **kwargs):
         self.validate(self)
@@ -58,3 +49,17 @@ class Notification(TimestampedModel):
             return EmailService
         else:
             raise NotImplementedError
+
+
+class Topic(TimestampedModel):
+    name = models.CharField(unique=True, max_length=255)
+    description = models.TextField()
+    notification = models.ForeignKey(
+        Notification,
+        on_delete=models.CASCADE,
+        related_name="topic",
+        null=True,
+    )
+
+    def __str__(self):
+        return self.name
