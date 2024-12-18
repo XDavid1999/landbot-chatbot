@@ -107,12 +107,27 @@ This project enables sending notifications via multiple channels (Email, Slack, 
 - Go to the **Django Admin** panel and navigate to the **Notifications** section.  
 - Create a new Notification by selecting a `method` (e.g., **Email**, **Slack**, or **Telegram**) and configuring the appropriate `config` field with JSON, like:  
 
-```json
-{
-    "recipient_list": ["user@example.com"],
-    "subject": "Welcome Notification"
-}
-```
+    ##### Email
+    ```json
+    {
+        "recipient_list": ["user@example.com"],
+        "subject": "Welcome Notification"
+    }
+    ```
+
+    ##### Slack
+    ```json
+    {
+        "channel": "#channel"
+    }
+    ```
+
+    ##### Telegram
+    ```json
+    {
+        "chat_id": "12345678"
+    }
+    ```
 
 ---
 
