@@ -1,21 +1,27 @@
 from dispatcher.services.telegram import TelegramService
 from dispatcher.services.slack import SlackService
-from dispatcher.services.email import EmailChannel
+from dispatcher.services.email import EmailService
 from dispatcher.models import Notification
 
 
 class NotificationWrapper(object):
-    def __init__(self, type, *args, **kwargs):
-        self.type = type
-        self.service = self._get_service(type, *args, **kwargs)
+    def __init__(self, notification: Notification, message, *args, **kwargs):
+        self.notification = notification
+        self.message = message
+        self.service = self._get_service(*args, **kwargs)
 
-    def _get_service(self, type, *args, **kwargs):
-        if type == Notification.TELEGRAM:
-            return TelegramService(*args, **kwargs)
-        elif type == Notification.SLACK:
-            return SlackService(*args, **kwargs)
-        elif type == Notification.EMAIL:
-            return EmailChannel(*args, **kwargs)
+    def _get_service(self):
+        kwargs = self.notification.config
+        if self.notification.method == Notification.TELEGRAM:
+            kwargs["text"] = self.message
+            return TelegramService(**kwargs)
+        elif self.notification.method == Notification.SLACK:
+            kwargs["text"] = self.message
+            return SlackService(**kwargs)
+        elif self.notification.method == Notification.EMAIL:
+            kwargs["message"] = self.message
+            kwargs["subject"] = self.message[:10]
+            return EmailService(**kwargs)
         else:
             raise NotImplementedError
 

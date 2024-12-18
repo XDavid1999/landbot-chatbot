@@ -12,7 +12,7 @@ def send_notification(topic, **kwargs):
         logger.info(f"Sending notification for topic {topic}")
         notification = Notification.objects.get(topic=topic)
         logger.info(f"Notification method: {notification.method}")
-        notification_wrapper = NotificationWrapper(notification.method)
+        notification_wrapper = NotificationWrapper(notification)
         notification_wrapper.send(**kwargs)
     except Notification.DoesNotExist:
         logger.error(f"Notification for topic {topic} not found")

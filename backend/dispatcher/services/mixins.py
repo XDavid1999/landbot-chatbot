@@ -27,3 +27,6 @@ class ServiceInterfaceMixin(ABC):
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.disconnect()
+
+    def validate(self, *args, **kwargs):
+        pass

@@ -5,7 +5,7 @@ from backend.utils.django.models.mixins import TimestampedModel
 
 
 class Topic(TimestampedModel):
-    name = models.CharField(max_length=255)
+    name = models.CharField(unique=True, max_length=255)
     description = models.TextField()
 
 
@@ -22,6 +22,7 @@ class Notification(TimestampedModel):
 
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     method = models.CharField(max_length=255, choices=METHOD_CHOICES)
+    config = models.JSONField()
 
 
 class NotificationLog(TimestampedModel):

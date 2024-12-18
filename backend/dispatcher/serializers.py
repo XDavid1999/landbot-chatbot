@@ -18,3 +18,8 @@ class NotificationLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = NotificationLog
         fields = "__all__"
+
+
+class ChatMessageSerializer(serializers.Serializer):
+    topic_id = serializers.CharField()
+    description = serializers.CharField()

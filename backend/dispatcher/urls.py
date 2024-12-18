@@ -4,6 +4,7 @@ from dispatcher.views import (
     TopicViewSet,
     NotificationViewSet,
     NotificationLogViewSet,
+    Dispatcher,
 )
 
 
@@ -16,5 +17,6 @@ router.register(r"notification-logs", NotificationLogViewSet)
 
 # The API URLs are now determined automatically by the router.
 dispatcher_urlpatterns = [
+    path("dispatcher/", Dispatcher.as_view({"post": "post"})),
     path("", include(router.urls)),
 ]

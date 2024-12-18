@@ -12,5 +12,11 @@ class SlackService(ServiceInterfaceMixin):
     def disconnect(self, *args, **kwargs):
         self.client = None
 
+    def validate(self, *args, **kwargs):
+        required_fields = ["text", "channel"]
+        return all([field in kwargs for field in required_fields])
+
     def send(self, *args, **kwargs):
+        if not self.validate():
+            raise ValueError("Invalid slack data")
         self.client.chat_postMessage(**kwargs)
