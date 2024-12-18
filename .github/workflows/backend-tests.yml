@@ -12,7 +12,11 @@ jobs:
 
     env:
       DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-
+      EMAIL_HOST_USER: django@localhost.django
+      DEFAULT_FROM_EMAIL: django@localhost.django
+      EMAIL_HOST_PASSWORD: supersecretpassword
+      TELEGRAM_BOT_TOKEN: dummy
+      SLACK_API_TOKEN: dummy
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
