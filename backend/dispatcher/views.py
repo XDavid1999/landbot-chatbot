@@ -31,17 +31,18 @@ class Dispatcher(viewsets.ViewSet):
             serializer = ChatMessageSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             message = serializer.data["description"]
-            notifications = Notification.objects.filter(
+
+            if notifications := Notification.objects.filter(
                 topic=serializer.data["topic_id"]
-            )
-            if not notifications.exists():
+            ):
+                for notification in notifications:
+                    send_notification.delay(notification.method, message=message)
+            else:
                 return Response(
                     {"message": "No notifications found for this topic"},
                     status=status.HTTP_404_NOT_FOUND,
                 )
 
-            for notification in notifications:
-                send_notification.delay(notification.method, message=message)
             return Response({"message": "Notification sent"}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response(
