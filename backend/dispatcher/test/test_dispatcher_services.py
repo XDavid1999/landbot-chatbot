@@ -1,185 +1,220 @@
-import unittest
+# dispatcher/tests/test_services.py
+
+from django.test import TestCase
 from unittest.mock import patch, MagicMock
+from dispatcher.models import Notification, Topic
 from dispatcher.services.telegram import TelegramService
 from dispatcher.services.slack import SlackService
 from dispatcher.services.email import EmailService
-from dispatcher.services.mixins import ServiceInterfaceMixin
+from dispatcher.services.notification_wrapper import NotificationWrapper
+from django.core import mail
+from django.core.exceptions import ValidationError
+import os
 
 
-class TestServiceInterfaceMixin(unittest.TestCase):
-    """
-    Test cases for ServiceInterfaceMixin.
-    """
+class TelegramServiceTest(TestCase):
+    def setUp(self):
+        self.telegram_config = {"chat_id": "123456789"}
 
-    class ConcreteService(ServiceInterfaceMixin):
-        """
-        Concrete implementation for testing purposes.
-        """
-
-        def send(self, *args, **kwargs):
-            pass
-
-        def connect(self, *args, **kwargs):
-            pass
-
-        def disconnect(self, *args, **kwargs):
-            pass
-
-    def test_initialization(self):
-        service = self.ConcreteService(message="Test Message")
-        self.assertEqual(service.message, "Test Message")
-
-    def test_get_secret_success(self):
-        with patch.dict("os.environ", {"TEST_SECRET": "secret_value"}):
-            service = self.ConcreteService(message="Test")
-            secret = service._get_secret("TEST_SECRET")
-            self.assertEqual(secret, "secret_value")
-
-    def test_get_secret_missing(self):
-        service = self.ConcreteService(message="Test")
-        with self.assertRaises(KeyError):
-            service._get_secret("MISSING_SECRET")
-
-    def test_context_manager(self):
-        service = self.ConcreteService(message="Test")
-        with patch.object(service, "connect") as mock_connect, patch.object(
-            service, "disconnect"
-        ) as mock_disconnect:
-            with service:
-                mock_connect.assert_called_once()
-            mock_disconnect.assert_called_once()
-
-    def test_validate_default(self):
-        service = self.ConcreteService(message="Test")
-        self.assertTrue(service.validate())
-
-
-class TestTelegramService(unittest.TestCase):
-    """
-    Test cases for TelegramService.
-    """
-
-    @patch("dispatcher.services.telegram.os.getenv")
+    @patch.dict(os.environ, {"TELEGRAM_BOT_TOKEN": "dummy_telegram_token"})
     @patch("dispatcher.services.telegram.requests.post")
-    def test_send_success(self, mock_post, mock_getenv):
-        mock_getenv.return_value = "dummy_token"
+    def test_send_success(self, mock_post):
         mock_response = MagicMock()
-        mock_response.raise_for_status.return_value = None
+        mock_response.status_code = 200
         mock_post.return_value = mock_response
 
-        service = TelegramService(message="Hello Telegram!", chat_id="123456")
-        service.send(chat_id="123456")
+        service = TelegramService(**self.telegram_config)
+        try:
+            service.send(message="Hello Telegram!", **self.telegram_config)
+        except Exception as e:
+            self.fail(f"TelegramService.send() raised an exception: {e}")
 
-        mock_post.assert_called_once_with(
-            "https://api.telegram.org/botdummy_token/sendMessage",
-            data={"chat_id": "123456", "text": "Hello Telegram!"},
+        mock_post.assert_called_once()
+        args, kwargs = mock_post.call_args
+        expected_url = "https://api.telegram.org/botdummy_telegram_token/sendMessage"
+        self.assertIn(expected_url, args)
+        self.assertEqual(
+            kwargs["data"], {"chat_id": "123456789", "text": "Hello Telegram!"}
         )
 
-    @patch("dispatcher.services.telegram.os.getenv")
-    def test_validate_success(self, mock_getenv):
-        service = TelegramService(message="Hello Telegram!", chat_id="123456")
-        self.assertTrue(service.validate(chat_id="123456"))
+    @patch.dict(os.environ, {"TELEGRAM_BOT_TOKEN": "dummy_telegram_token"})
+    @patch("dispatcher.services.telegram.requests.post")
+    def test_send_invalid_chat_id(self, mock_post):
+        mock_response = MagicMock()
+        mock_response.status_code = 400
+        mock_post.return_value = mock_response
 
-    def test_validate_failure(self):
-        service = TelegramService(message="Hello Telegram!", chat_id="")
-        self.assertFalse(service.validate())
-
-    @patch("dispatcher.services.telegram.os.getenv", return_value="dummy_token")
-    def test_init(self, mock_getenv):
-        service = TelegramService(message="Hello Telegram!", chat_id="123456")
-        self.assertEqual(service.bot_token, "dummy_token")
-        self.assertEqual(service.chat_id, "123456")
+        service = TelegramService(chat_id="invalid_chat_id")
+        with self.assertRaises(ValueError) as context:
+            service.send(message="Hello Telegram!", chat_id="invalid_chat_id")
+        self.assertIn("Invalid chat_id", str(context.exception))
 
 
-class TestSlackService(unittest.TestCase):
-    """
-    Test cases for SlackService.
-    """
+class SlackServiceTest(TestCase):
+    def setUp(self):
+        self.slack_config = {"channel": "#general"}
 
-    @patch("dispatcher.services.slack.os.getenv")
-    @patch("dispatcher.services.slack.WebClient")
-    def test_send_success(self, mock_webclient, mock_getenv):
-        mock_getenv.return_value = "dummy_slack_token"
-        mock_client_instance = MagicMock()
-        mock_webclient.return_value = mock_client_instance
+    @patch.dict(os.environ, {"SLACK_API_TOKEN": "dummy_slack_token"})
+    @patch("dispatcher.services.slack.WebClient.chat_postMessage")
+    @patch("dispatcher.services.slack.WebClient.__init__", return_value=None)
+    def test_send_success(self, mock_init, mock_chat_post):
+        mock_chat_post.return_value = MagicMock()
 
-        service = SlackService(message="Hello Slack!", channel="#general")
-        service.connect()
-        service.send(channel="#general")
+        service = SlackService(**self.slack_config)
+        try:
+            service.send(message="Hello Slack!", **self.slack_config)
+        except Exception as e:
+            self.fail(f"SlackService.send() raised an exception: {e}")
 
-        mock_webclient.assert_called_once_with(token="dummy_slack_token")
-        mock_client_instance.chat_postMessage.assert_called_once_with(
-            text="Hello Slack!", channel="#general"
-        )
+        mock_chat_post.assert_called_once_with(text="Hello Slack!", channel="#general")
 
-    @patch("dispatcher.services.slack.os.getenv")
-    def test_validate_success(self, mock_getenv):
-        service = SlackService(message="Hello Slack!", channel="#general")
-        self.assertTrue(service.validate(channel="#general"))
-
-    def test_validate_failure(self):
-        service = SlackService(message="Hello Slack!", channel="")
-        self.assertFalse(service.validate())
-
-    @patch("dispatcher.services.slack.os.getenv", return_value="dummy_slack_token")
-    def test_init(self, mock_getenv):
-        service = SlackService(message="Hello Slack!", channel="#general")
-        self.assertEqual(service.message, "Hello Slack!")
-        self.assertEqual(service.chat_id, "")  # SlackService does not have chat_id
+    @patch.dict(os.environ, {"SLACK_API_TOKEN": "dummy_slack_token"})
+    @patch(
+        "dispatcher.services.slack.WebClient.chat_postMessage",
+        side_effect=Exception("Slack API Error"),
+    )
+    @patch("dispatcher.services.slack.WebClient.__init__", return_value=None)
+    def test_send_failure(self, mock_init, mock_chat_post):
+        service = SlackService(**self.slack_config)
+        with self.assertRaises(Exception) as context:
+            service.send(message="Hello Slack!", **self.slack_config)
+        self.assertIn("Slack API Error", str(context.exception))
 
 
-class TestEmailService(unittest.TestCase):
-    """
-    Test cases for EmailService.
-    """
+class EmailServiceTest(TestCase):
+    def setUp(self):
+        self.email_config = {
+            "recipient_list": ["test@example.com"],
+            "subject": "Test Subject",
+        }
+        self.service = EmailService(**self.email_config)
 
     @patch("dispatcher.services.email.mail.send_mail")
-    def test_send_success_with_subject(self, mock_send_mail):
-        service = EmailService(
-            message="Hello Email!",
-            recipient_list=["test@example.com"],
-            subject="Greetings",
-        )
-        service.send(recipient_list=["test@example.com"], subject="Greetings")
+    def test_send_success(self, mock_send_mail):
+        self.service.send(message="Hello Email!", **self.email_config)
         mock_send_mail.assert_called_once_with(
-            subject="Greetings",
+            subject="Test Subject",
             message="Hello Email!",
             from_email=None,
             recipient_list=["test@example.com"],
             fail_silently=False,
         )
+        self.assertEqual(len(mail.outbox), 0)  # Since send_mail is mocked
 
     @patch("dispatcher.services.email.mail.send_mail")
-    def test_send_success_without_subject(self, mock_send_mail):
-        service = EmailService(
-            message="Hello Email!", recipient_list=["test@example.com"]
-        )
-        service.send(recipient_list=["test@example.com"])
+    def test_send_invalid_email(self, mock_send_mail):
+        invalid_config = {"recipient_list": ["invalid-email"], "subject": "Test Email"}
+        with self.assertRaises(ValidationError):
+            service = EmailService(**invalid_config)
+            service.send(message="This should fail", **invalid_config)
+
+    @patch("dispatcher.services.email.mail.send_mail")
+    def test_send_without_subject(self, mock_send_mail):
+        config = {"recipient_list": ["test@example.com"]}
+        service = EmailService(**config)
+        service.send(message="Hello without subject!", **config)
         mock_send_mail.assert_called_once()
         args, kwargs = mock_send_mail.call_args
-        self.assertEqual(kwargs["subject"], "Notification: Hello Ema...")
+        expected_subject = "Notification: Hello with..."
+        self.assertEqual(kwargs["subject"], expected_subject)
+        self.assertEqual(kwargs["message"], "Hello without subject!")
 
-    def test_validate_success(self):
-        service = EmailService(
-            message="Hello Email!", recipient_list=["test@example.com"]
+
+class NotificationWrapperTest(TestCase):
+    @patch.dict(
+        os.environ,
+        {
+            "TELEGRAM_BOT_TOKEN": "dummy_telegram_token",
+            "SLACK_API_TOKEN": "dummy_slack_token",
+        },
+    )
+    @patch("dispatcher.services.email.mail.send_mail")
+    @patch("dispatcher.services.telegram.requests.post")
+    @patch("dispatcher.services.slack.WebClient.chat_postMessage")
+    @patch("dispatcher.services.slack.WebClient.__init__", return_value=None)
+    def test_wrapper_send_email(
+        self, mock_slack_init, mock_slack_post, mock_telegram_post, mock_send_mail
+    ):
+        # Setup
+        email_config = {
+            "recipient_list": ["test@example.com"],
+            "subject": "Wrapper Test Email",
+        }
+        notification = Notification.objects.create(
+            method=Notification.EMAIL, config=email_config
         )
-        self.assertTrue(service.validate(recipient_list=["test@example.com"]))
-
-    def test_validate_failure_missing_field(self):
-        service = EmailService(message="Hello Email!", recipient_list=[])
-        self.assertFalse(service.validate())
-
-    def test_validate_failure_wrong_type(self):
-        service = EmailService(message="Hello Email!", recipient_list="not_a_list")
-        self.assertFalse(service.validate())
-
-    def test_init(self):
-        service = EmailService(
-            message="Hello Email!", recipient_list=["test@example.com"]
+        topic = Topic.objects.create(
+            name="Wrapper Topic",
+            description="Testing NotificationWrapper",
+            notification=notification,
         )
-        self.assertEqual(service.message, "Hello Email!")
-        self.assertEqual(service.chat_id, "")  # EmailService does not have chat_id
+        wrapper = NotificationWrapper(topic=topic)
 
+        # Action
+        wrapper.send(message="Hello from Wrapper!")
 
-if __name__ == "__main__":
-    unittest.main()
+        # Assertions
+        mock_send_mail.assert_called_once_with(
+            subject="Wrapper Test Email",
+            message="Hello from Wrapper!",
+            from_email=None,
+            recipient_list=["test@example.com"],
+            fail_silently=False,
+        )
+
+    @patch.dict(os.environ, {"TELEGRAM_BOT_TOKEN": "dummy_telegram_token"})
+    @patch("dispatcher.services.telegram.requests.post")
+    def test_wrapper_send_telegram(self, mock_post):
+        # Setup
+        telegram_config = {"chat_id": "987654321"}
+        notification = Notification.objects.create(
+            method=Notification.TELEGRAM, config=telegram_config
+        )
+        topic = Topic.objects.create(
+            name="Wrapper Topic",
+            description="Testing NotificationWrapper",
+            notification=notification,
+        )
+        wrapper = NotificationWrapper(topic=topic)
+
+        # Mock response
+        mock_response = MagicMock()
+        mock_response.status_code = 200
+        mock_post.return_value = mock_response
+
+        # Action
+        wrapper.send(message="Hello Telegram via Wrapper!")
+
+        # Assertions
+        mock_post.assert_called_once()
+        args, kwargs = mock_post.call_args
+        expected_url = "https://api.telegram.org/botdummy_telegram_token/sendMessage"
+        self.assertIn(expected_url, args)
+        self.assertEqual(
+            kwargs["data"],
+            {"chat_id": "987654321", "text": "Hello Telegram via Wrapper!"},
+        )
+
+    @patch.dict(os.environ, {"SLACK_API_TOKEN": "dummy_slack_token"})
+    @patch("dispatcher.services.slack.WebClient.chat_postMessage")
+    @patch("dispatcher.services.slack.WebClient.__init__", return_value=None)
+    def test_wrapper_send_slack(self, mock_init, mock_chat_post):
+        # Setup
+        slack_config = {"channel": "#alerts"}
+        notification = Notification.objects.create(
+            method=Notification.SLACK, config=slack_config
+        )
+        topic = Topic.objects.create(
+            name="Wrapper Topic",
+            description="Testing NotificationWrapper",
+            notification=notification,
+        )
+        wrapper = NotificationWrapper(topic=topic)
+
+        # Action
+        wrapper.send(message="Hello Slack via Wrapper!")
+
+        # Assertions
+        mock_chat_post.assert_called_once_with(
+            text="Hello Slack via Wrapper!", channel="#alerts"
+        )
