@@ -1,8 +1,8 @@
 from django.db import models
 from backend.utils.django.models.mixins import TimestampedModel
-from dispatcher.services.telegram import TelegramService, TelegramRequirements
-from dispatcher.services.slack import SlackService, SlackRequirements
-from dispatcher.services.email import EmailService, EmailRequirements
+from dispatcher.services.telegram import TelegramService
+from dispatcher.services.slack import SlackService
+from dispatcher.services.email import EmailService
 
 
 class Notification(TimestampedModel):

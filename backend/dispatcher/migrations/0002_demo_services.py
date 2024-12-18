@@ -8,7 +8,7 @@ def migrate_data(apps, schema_editor):
     )
     sales_notification = Notification.objects.create(
         method=Notification.EMAIL,
-        config={"recipient_list": ["test@test", "test2@test"]},
+        config={"recipient_list": ["test@test.test", "test2@test.test"]},
     )
     sales.notification = sales_notification
     sales.save()
