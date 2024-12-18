@@ -1,4 +1,4 @@
-from backend.dispatcher.services.mixins import ServiceInterfaceMixin
+from dispatcher.services.mixins import ServiceInterfaceMixin
 from slack_sdk import WebClient
 
 

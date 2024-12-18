@@ -1,5 +1,5 @@
 from django.core.mail import send_mail
-from backend.dispatcher.services.mixins import ServiceInterfaceMixin
+from dispatcher.services.mixins import ServiceInterfaceMixin
 
 
 class EmailChannel(ServiceInterfaceMixin):

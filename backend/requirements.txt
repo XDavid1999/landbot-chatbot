@@ -10,5 +10,8 @@ python-dotenv==1.0.1
 djangorestframework==3.15.1
 djangorestframework-simplejwt==4.8.0
 django-cors-headers==3.11.0
+# redis
+django-redis==5.4.0
+redis==5.0.7
 # celery
 celery==5.4.0

@@ -1,6 +1,6 @@
 from celery import shared_task
-from backend.dispatcher.services.notification_wrapper import NotificationWrapper
-from backend.dispatcher.models import Notification
+from dispatcher.services.notification_wrapper import NotificationWrapper
+from dispatcher.models import Notification
 import logging
 
 logger = logging.getLogger(__name__)

@@ -1,7 +1,7 @@
-from backend.dispatcher.services.telegram import TelegramService
-from backend.dispatcher.services.slack import SlackService
-from backend.dispatcher.services.email import EmailChannel
-from backend.dispatcher.models import Notification
+from dispatcher.services.telegram import TelegramService
+from dispatcher.services.slack import SlackService
+from dispatcher.services.email import EmailChannel
+from dispatcher.models import Notification
 
 
 class NotificationWrapper(object):
