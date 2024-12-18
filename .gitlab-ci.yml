@@ -1,0 +1,33 @@
+# .gitlab-ci.yml
+
+stages:
+  - test
+
+test_backend:
+  stage: test
+  image: python:3.10-slim
+  variables:
+    DJANGO_SETTINGS_MODULE: "backend.settings"
+    # DATABASE_URL: "sqlite:///backend/db.sqlite3"
+  cache:
+    paths:
+      - .cache/pip
+      - venv/
+  before_script:
+    # Install system dependencies if necessary
+    - apt-get update && apt-get install -y build-essential
+    # Create and activate a virtual environment
+    - python -m venv venv
+    - source venv/bin/activate
+    # Upgrade pip
+    - pip install --upgrade pip
+    # Install Python dependencies
+    - pip install -r backend/requirements.txt
+  script:
+    # Navigate to the backend directory
+    - cd backend
+    # Run Django tests with the specified pattern
+    - ./manage.py test --pattern="test_*.py"
+  only:
+    - branches
+    - merge_requests
