@@ -1,0 +1,16 @@
+# Use the official Python image from the Docker Hub
+FROM python:3.10
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the project code into the container
+COPY . .
+
+# Install necessary packages including wkhtmltopdf
+RUN apt-get update
+
+# Install the dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+
