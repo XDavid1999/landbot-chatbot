@@ -20,7 +20,7 @@ class NotificationWrapper(object):
             return SlackService(**kwargs)
         elif self.notification.method == Notification.EMAIL:
             kwargs["message"] = self.message
-            kwargs["subject"] = self.message[:10]
+            kwargs["subject"] = f"{self.message[:10]}..."
             return EmailService(**kwargs)
         else:
             raise NotImplementedError
