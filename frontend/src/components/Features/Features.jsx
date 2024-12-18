@@ -38,6 +38,11 @@ const Features = () => {
 
   // Function to handle card click
   const handleCardClick = async (featureName) => {
+    if (!description) {
+      message.error('Please enter a description.');
+      return;
+    }
+
     const endpoint = "/dispatcher/resolve/";
     setActionLoading(true);
     try {
