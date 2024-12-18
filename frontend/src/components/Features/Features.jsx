@@ -80,7 +80,7 @@ const Features = () => {
       </Title>
       
       {/* Textbox for Description */}
-      <div className="description-input">
+      <div>
         <Input.TextArea
           rows={4}
           placeholder="Enter description..."
@@ -97,7 +97,7 @@ const Features = () => {
               className="feature-card"
               hoverable
               onClick={() => handleCardClick(feature.name)}
-              loading={actionLoading} // Optional: Show loading state on the card
+              loading={actionLoading}
             >
               <div className="feature-icon">
                 {iconMappings[feature.notification.method] || <SendOutlined />}
