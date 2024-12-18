@@ -48,9 +48,9 @@ To access the Django admin panel at [http://localhost:8000/admin](http://localho
 
 ## 🗂️ Folder Structure Overview
 
-- `frontend/`: Contains the code for the frontend application.
-- `backend/`: Contains the Django project and its apps.
-- `template.env`: Environment variables template for configuring the project.
+- **`frontend/`:** Contains the code for the frontend application.
+- **`backend/`:** Contains the Django project and its apps.
+- **`template.env`:** Environment variables template for configuring the project.
 
 ---
 
@@ -198,13 +198,6 @@ class Notification(TimestampedModel):
 
 ---
 
-With this system, you have a flexible and extensible way to manage notifications for different channels, ensuring scalability and ease of use.
-
-
-Absolutely, your insights touch on important aspects of the system's design philosophy and suggest impactful enhancements. Let’s break this discussion into design defense, reasoning, and potential improvements:
-
----
-
 ### ❓ **Design Defense**
 
 #### Why `_get_secret` is defined in `ServiceInterfaceMixin`?
@@ -215,7 +208,7 @@ Absolutely, your insights touch on important aspects of the system's design phil
   - Promotes scalability, especially for environments where secrets might differ between instances or regions.
 
 #### Why is the `config` stored in the database?
-- **Reasoning**: Unlike secrets or highly sensitive keys, the notification `config` (e.g., channel names, recipient lists, or `chat_id`) is operational data required to manage the application's behavior. Keeping such configurations in the database allows for:
+- **Reasoning**:  We could encrypt the field and, unlike secrets or highly sensitive keys, the notification `config` (e.g., channel names, recipient lists, or `chat_id`) is operational data required to manage the application's behavior. Keeping such configurations in the database allows for:
   - **Flexibility**: Users and administrators can modify notification settings without needing a developer to deploy changes.
   - **Ease of Use**: Changes via UI or admin dashboards make it easier for non-developers to control the application dynamically.
   - **Non-Critical Data**: The data stored doesn’t present a significant security risk, as credentials are fetched securely via `_get_secret`.
@@ -233,30 +226,30 @@ Absolutely, your insights touch on important aspects of the system's design phil
     - **Maintainability**: By segregating logic into service-specific handlers, the code remains clean, testable, and future-proof.
 
 #### Why Use Celery?
-- Asynchronous Processing: Notifications (e.g., sending emails, posting to Slack) can be time-consuming due to API latency. Celery allows these tasks to be handled in the background, ensuring the system remains responsive.
-- Scalability: Celery can handle a large volume of notifications by distributing tasks across multiple workers, crucial for systems with high throughput requirements.
-- Retry Mechanisms: If a notification fails (e.g., API downtime), Celery's built-in retries ensure the system automatically attempts to reprocess it without manual intervention.
-- Separation of Concerns: Offloading execution from the main request cycle enhances maintainability and simplifies the codebase.
+- **Asynchronous Processing:** Notifications (e.g., sending emails, posting to Slack) can be time-consuming due to API latency. Celery allows these tasks to be handled in the background, ensuring the system remains responsive.
+- **Scalability:** Celery can handle a large volume of notifications by distributing tasks across multiple workers, crucial for systems with high throughput requirements.
+- **Retry Mechanisms:** If a notification fails (e.g., API downtime), Celery's built-in retries ensure the system automatically attempts to reprocess it without manual intervention.
+- **Separation of Concerns:** Offloading execution from the main request cycle enhances maintainability and simplifies the codebase.
 
 ---
 
 ### 🔝 **Proposed Improvements**
 
 #### Store Sent Notifications in a Log Table
-- Auditability: A persistent record provides traceability for debugging and accountability, especially for important notifications.
-- Error Tracking: Logging metadata such as failures, retries, timestamps, and recipient information makes it easier to identify issues.
-- Statistical Analysis: Historical logs allow generating reports on notification success rates, platform performance, and user engagement.
-- Flexibility: Logs can include:
-- Notification ID.
-- Method (`Slack`, `Email`, etc.).
-- Status (`Sent`, `Failed`, `Retrying`).
-- Metadata (recipient, timestamp, error message).
+- **Auditability:** A persistent record provides traceability for debugging and accountability, especially for important notifications.
+- **Error Tracking:** Logging metadata such as failures, retries, timestamps, and recipient information makes it easier to identify issues.
+- **Statistical Analysis:** Historical logs allow generating reports on notification success rates, platform performance, and user engagement.
+- **Flexibility:** Logs can include:
+- **Notification ID**.
+- **Method** (`Slack`, `Email`, etc.).
+- **Status** (`Sent`, `Failed`, `Retrying`).
+- **Metadata** (recipient, timestamp, error message).
 
 ##### Why Use Elasticsearch for Logs?
-- Full-Text Search: Elasticsearch provides a fast and powerful search interface to query logs, perfect for filtering and analyzing large datasets.
-- Centralized Logging: Store all logs in Elasticsearch to aggregate notifications, API errors, and task retries in one place.
-- Real-Time Analytics: Elasticsearch enables dashboards (via Kibana) to visualize metrics like message delivery success rates or performance by platform in real time.
-- Scalability: Unlike relational databases, Elasticsearch is optimized for large-scale read and write operations, making it ideal for log management.
+- **Full-Text Search:** Elasticsearch provides a fast and powerful search interface to query logs, perfect for filtering and analyzing large datasets.
+- **Centralized Logging:** Store all logs in Elasticsearch to aggregate notifications, API errors, and task retries in one place.
+- **Real-Time Analytics:** Elasticsearch enables dashboards (via Kibana) to visualize metrics like message delivery success rates or performance by platform in real time.
+- **Scalability:** Unlike relational databases, Elasticsearch is optimized for large-scale read and write operations, making it ideal for log management.
 
 #### Cross-Platform Communication via WebSocket Responses
 
