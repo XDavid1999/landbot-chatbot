@@ -25,16 +25,12 @@ class Notification(TimestampedModel):
     config = models.JSONField()
 
     def __str__(self):
-        return f"{self.method} notification for {self.topic}"
+        return self.method
 
     def validate(self, instance):
-        matches = {
-            Notification.TELEGRAM: TelegramRequirements,
-            Notification.SLACK: SlackRequirements,
-            Notification.EMAIL: EmailRequirements,
-        }
-        matches[instance.method](**instance.config)
-        return instance
+        service = instance.get_service()
+        if not service().validate(**instance.config):
+            raise ValueError("Invalid notification data")
 
     def save(self, *args, **kwargs):
         self.validate(self)
@@ -62,4 +58,4 @@ class Topic(TimestampedModel):
     )
 
     def __str__(self):
-        return self.name
+        return f"{self.name} - {self.notification}"

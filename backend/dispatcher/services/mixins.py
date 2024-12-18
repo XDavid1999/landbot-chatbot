@@ -9,16 +9,17 @@ class ServiceInterfaceMixin(ABC):
     Implements context management for connecting and disconnecting services.
     """
 
+    validator_class: Any = None
+
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """
         Initializes the service with a message.
 
         Args:
-            message (str): The message to send.
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments.
         """
-        pass
+        self.connect()
 
     @abstractmethod
     def send(self, *args: Any, **kwargs: Any) -> None:
@@ -68,16 +69,6 @@ class ServiceInterfaceMixin(ABC):
             raise KeyError(f"The secret '{key}' is not set")
         return value
 
-    def __enter__(self) -> "ServiceInterfaceMixin":
-        """
-        Enters the runtime context related to this object.
-
-        Returns:
-            ServiceInterfaceMixin: The service instance.
-        """
-        self.connect()
-        return self
-
     def __exit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None:
         """
         Exits the runtime context and disconnects the service.
@@ -100,4 +91,11 @@ class ServiceInterfaceMixin(ABC):
         Returns:
             bool: True if valid, False otherwise.
         """
-        return True
+        if self.validator_class is None:
+            raise NotImplementedError("Validator class not set")
+
+        try:
+            self.validator_class(**kwargs)
+            return True
+        except TypeError:
+            return False

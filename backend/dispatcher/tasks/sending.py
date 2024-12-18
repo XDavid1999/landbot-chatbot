@@ -8,32 +8,37 @@ from dispatcher.settings import NOTIFICATION_RETY_TIME
 logger = logging.getLogger(__name__)
 
 
+@shared_task
+def add(x, y):
+    return x + y
+
+
 @shared_task(bind=True)
-def send_notification(self, topic_id: int, message: str, **kwargs: Any) -> None:
+def send_notification(self, pk: str, message: str, **kwargs: Any) -> None:
     """
     Celery task to send notifications asynchronously.
 
     Args:
-        topic_id (int): The ID of the Topic instance.
+        pk (int): The ID of the Topic instance.
         message (str): The message to send.
         **kwargs: Additional keyword arguments.
 
     Raises:
         Exception: If any error occurs during the sending process.
     """
-    logger.info(f"Sending topic ID {topic_id}")
-    topic = Topic.objects.get(id=topic_id)
+    logger.info(f"Sending topic ID {pk}")
+    topic = Topic.objects.get(id=pk)
 
     if not hasattr(topic, "notification"):
         logger.info("This topic has not any notification method, skipping")
     else:
         try:
             logger.info(f"Topic method: {topic.notification.method}")
-            notification_wrapper = NotificationWrapper(topic, message)
-            notification_wrapper.send(**kwargs)
-            logger.info(f"Topic ID {topic_id} sent successfully.")
+            notification_wrapper = NotificationWrapper(topic)
+            notification_wrapper.send(message, **kwargs)
+            logger.info(f"Topic ID {pk} sent successfully.")
         except Topic.DoesNotExist:
-            logger.error(f"Topic with ID {topic_id} not found.")
+            logger.error(f"Topic with ID {pk} not found.")
         except Exception as e:
-            logger.error(f"Error sending topic ID {topic_id}: {e}")
-        raise self.retry(exc=e, countdown=NOTIFICATION_RETY_TIME)
+            logger.error(f"Error sending topic ID {pk}: {e}")
+            raise self.retry(exc=e, countdown=NOTIFICATION_RETY_TIME)

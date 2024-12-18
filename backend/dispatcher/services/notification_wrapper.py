@@ -7,20 +7,18 @@ class NotificationWrapper:
     Wrapper for handling the topic sending process.
     """
 
-    def __init__(self, topic: Topic, message: str) -> None:
+    def __init__(self, topic: Topic) -> None:
         """
         Initializes the wrapper with a topic and message.
 
         Args:
             topic (Topic): The topic instance.
-            message (str): The message to send.
         """
         self.topic = topic
-        self.message = message
         service_class = self.topic.notification.get_service()
-        self.client = service_class(**self.topic.config)
+        self.client = service_class()
 
-    def send(self, *args: Any, **kwargs: Any) -> None:
+    def send(self, message: str, *args: Any, **kwargs: Any) -> None:
         """
         Sends the topic using the appropriate service.
 
@@ -28,4 +26,4 @@ class NotificationWrapper:
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments.
         """
-        self.client.send(message=self.message, *args, **kwargs)
+        self.client.send(message=message, **self.topic.notification.config)

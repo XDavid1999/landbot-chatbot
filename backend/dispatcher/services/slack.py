@@ -14,13 +14,15 @@ class SlackService(ServiceInterfaceMixin):
     Service for sending notifications via Slack.
     """
 
+    validator_class = SlackRequirements
+
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """
         Initializes the Slack service with the necessary configurations.
 
         Args:
             *args: Variable length argument list.
-            **kwargs: Arbitrary keyword arguments, expects 'channel'.
+            **kwargs: Additional keyword arguments.
         """
         super().__init__(*args, **kwargs)
 
@@ -36,16 +38,6 @@ class SlackService(ServiceInterfaceMixin):
         Closes the Slack WebClient connection if necessary.
         """
         self.client = None
-
-    def validate(self, *args: Any, **kwargs: Any) -> bool:
-        """
-        Validates that 'channel' is provided.
-
-        Returns:
-            bool: True if valid, False otherwise.
-        """
-        required_fields = ["channel"]
-        return all(field in kwargs for field in required_fields)
 
     def send(self, message: str, *args: Any, **kwargs: Any) -> None:
         """

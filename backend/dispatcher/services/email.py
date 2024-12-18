@@ -1,18 +1,26 @@
 from django.core import mail
 from dispatcher.services.mixins import ServiceInterfaceMixin
 import dataclasses
-from typing import Any, List
+from typing import Any, List, Optional
+from django.core.validators import validate_email
 
 
 @dataclasses.dataclass
 class EmailRequirements:
     recipient_list: list
+    subject: Optional[str] = None
+
+    def __post_init__(self):
+        for recipient in self.recipient_list:
+            validate_email(recipient)
 
 
 class EmailService(ServiceInterfaceMixin):
     """
     Service for sending notifications via Email.
     """
+
+    validator_class = EmailRequirements
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """
@@ -35,20 +43,6 @@ class EmailService(ServiceInterfaceMixin):
         Email service does not require an explicit disconnection.
         """
         pass
-
-    def validate(self, *args: Any, **kwargs: Any) -> bool:
-        """
-        Validates that 'recipient_list' is provided and is a list.
-
-        Returns:
-            bool: True if valid, False otherwise.
-        """
-        required_fields = ["recipient_list"]
-        if not all(field in kwargs for field in required_fields):
-            return False
-        if not isinstance(kwargs["recipient_list"], list):
-            return False
-        return True
 
     def send(self, message: str, *args: Any, **kwargs: Any) -> None:
         """
