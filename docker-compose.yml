@@ -19,18 +19,6 @@ services:
     ports:
       - "5432:5432"
 
-  redis:
-    container_name: chatbot-redis
-    image: redis:latest
-    restart: always
-    ports:
-      - "6379:6379"
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
   backend:
     container_name: chatbot-backend
     build:
@@ -61,6 +49,36 @@ services:
       - ./frontend:/app
     ports:
       - ${FRONTEND_PORT}:${FRONTEND_PORT}
+
+  redis:
+    container_name: chatbot-redis
+    image: redis:latest
+    restart: always
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  celery:
+    container_name: chatbot-celery
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.celery
+    command: celery -A backend worker -l info
+    env_file:
+      - .env
+    volumes:
+      - ./backend/:/app
+    depends_on:
+      - redis
+    healthcheck:
+      test: ["CMD", "celery", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
 volumes:
   pgdata:
