@@ -9,7 +9,7 @@ class ServiceInterfaceMixin(ABC):
     Implements context management for connecting and disconnecting services.
     """
 
-    def __init__(self, message: str, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         """
         Initializes the service with a message.
 
@@ -18,7 +18,7 @@ class ServiceInterfaceMixin(ABC):
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments.
         """
-        self.message: str = message
+        pass
 
     @abstractmethod
     def send(self, *args: Any, **kwargs: Any) -> None:

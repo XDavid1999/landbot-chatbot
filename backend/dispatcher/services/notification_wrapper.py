@@ -18,7 +18,7 @@ class NotificationWrapper:
         self.topic = topic
         self.message = message
         service_class = self.topic.notification.get_service()
-        self.client = service_class(message=self.message, **self.topic.config)
+        self.client = service_class(**self.topic.config)
 
     def send(self, *args: Any, **kwargs: Any) -> None:
         """
@@ -28,4 +28,4 @@ class NotificationWrapper:
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments.
         """
-        self.client.send(*args, **kwargs)
+        self.client.send(message=self.message, *args, **kwargs)

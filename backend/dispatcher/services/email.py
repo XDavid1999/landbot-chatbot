@@ -14,16 +14,15 @@ class EmailService(ServiceInterfaceMixin):
     Service for sending notifications via Email.
     """
 
-    def __init__(self, message: str, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         """
         Initializes the Email service with the necessary configurations.
 
         Args:
-            message (str): The message to send.
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments, expects 'recipient_list' and optionally 'subject'.
         """
-        super().__init__(message, *args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def connect(self, *args: Any, **kwargs: Any) -> None:
         """
@@ -51,11 +50,12 @@ class EmailService(ServiceInterfaceMixin):
             return False
         return True
 
-    def send(self, *args: Any, **kwargs: Any) -> None:
+    def send(self, message: str, *args: Any, **kwargs: Any) -> None:
         """
         Sends an email.
 
         Args:
+            message (str): The message to send.
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments, expects 'recipient_list' and optionally 'subject'.
 
@@ -66,10 +66,10 @@ class EmailService(ServiceInterfaceMixin):
             raise ValueError("Invalid email data")
 
         recipient_list: List[str] = kwargs["recipient_list"]
-        subject: str = kwargs.get("subject", f"Notification: {self.message[:10]}...")
+        subject: str = kwargs.get("subject", f"Notification: {message[:10]}...")
         mail.send_mail(
             subject=subject,
-            message=self.message,
+            message=message,
             from_email=None,  # Use default from settings
             recipient_list=recipient_list,
             fail_silently=False,

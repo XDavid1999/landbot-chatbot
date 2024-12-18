@@ -14,16 +14,15 @@ class SlackService(ServiceInterfaceMixin):
     Service for sending notifications via Slack.
     """
 
-    def __init__(self, message: str, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         """
         Initializes the Slack service with the necessary configurations.
 
         Args:
-            message (str): The message to send.
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments, expects 'channel'.
         """
-        super().__init__(message, *args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def connect(self, *args: Any, **kwargs: Any) -> None:
         """
@@ -48,11 +47,12 @@ class SlackService(ServiceInterfaceMixin):
         required_fields = ["channel"]
         return all(field in kwargs for field in required_fields)
 
-    def send(self, *args: Any, **kwargs: Any) -> None:
+    def send(self, message: str, *args: Any, **kwargs: Any) -> None:
         """
         Sends a message via Slack.
 
         Args:
+            message (str): The message to send.
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments, expects 'channel'.
 
@@ -64,4 +64,4 @@ class SlackService(ServiceInterfaceMixin):
             raise ValueError("Invalid slack data")
 
         channel: str = kwargs["channel"]
-        self.client.chat_postMessage(text=self.message, channel=channel)
+        self.client.chat_postMessage(text=message, channel=channel)

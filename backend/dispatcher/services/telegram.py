@@ -16,18 +16,17 @@ class TelegramService(ServiceInterfaceMixin):
 
     BASE_URL: str = "https://api.telegram.org/bot"
 
-    def __init__(self, message: str, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         """
         Initializes the Telegram service with the necessary configurations.
 
         Args:
-            message (str): The message to send.
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments, expects 'chat_id'.
         """
         self.bot_token: str = self._get_secret("TELEGRAM_BOT_TOKEN")
         self.chat_id: str = kwargs.get("chat_id", "")
-        super().__init__(message, *args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def connect(self, *args: Any, **kwargs: Any) -> None:
         """
@@ -51,11 +50,12 @@ class TelegramService(ServiceInterfaceMixin):
         required_fields = ["chat_id"]
         return all(field in kwargs for field in required_fields)
 
-    def send(self, *args: Any, **kwargs: Any) -> None:
+    def send(self, message: str, *args: Any, **kwargs: Any) -> None:
         """
         Sends a message via Telegram.
 
         Args:
+            message (str): The message to send.
             *args: Variable length argument list.
             **kwargs: Arbitrary keyword arguments.
 
@@ -67,6 +67,6 @@ class TelegramService(ServiceInterfaceMixin):
             raise ValueError("Invalid telegram data")
 
         url: str = f"{self.BASE_URL}{self.bot_token}/sendMessage"
-        data: Dict[str, str] = {"chat_id": self.chat_id, "text": self.message}
+        data: Dict[str, str] = {"chat_id": self.chat_id, "text": message}
         response = requests.post(url, data=data)
         response.raise_for_status()
