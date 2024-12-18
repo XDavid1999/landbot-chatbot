@@ -17,7 +17,6 @@ const Header = () => {
   };
 
   const menuItems = [
-    { key: 'home', label: 'Home' },
   ];
 
   return (
