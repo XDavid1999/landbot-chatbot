@@ -22,7 +22,7 @@ Explore how our project integrates seamlessly with various third-party services.
 
 Our Telegram bot allows real-time communication and interaction directly within your Telegram app.
 
-![Telegram Integration](docs/images/working_telegram.png)
+![Telegram Integration](images/working_telegram.png)
 
 **Features:**
 - Receive user's conversation effortlessly.
@@ -37,7 +37,7 @@ Our Telegram bot allows real-time communication and interaction directly within 
 
 Integrate with Slack to enhance team collaboration and streamline your workflows.
 
-![Slack Integration](docs/images/working_slack.png)
+![Slack Integration](images/working_slack.png)
 
 **Features:**
 - Automated message posting to Slack channels.
@@ -52,7 +52,7 @@ Integrate with Slack to enhance team collaboration and streamline your workflows
 
 Stay updated with email notifications and manage your communications efficiently.
 
-![Gmail Integration](docs/images/working_gmail.png)
+![Gmail Integration](images/working_gmail.png)
 
 **Features:**
 - Send automated emails for various triggers.
@@ -67,7 +67,7 @@ Stay updated with email notifications and manage your communications efficiently
 
 Ensure the reliability and robustness of your integrations with our comprehensive API testing tools.
 
-![API Testing](docs/images/api_test.png)
+![API Testing](images/api_test.png)
 
 **Features:**
 - Test API endpoints with ease.
@@ -82,7 +82,7 @@ Ensure the reliability and robustness of your integrations with our comprehensiv
 
 Manage and monitor all chat interactions from a centralized dashboard.
 
-![Chat Management](docs/images/chats.png)
+![Chat Management](images/chats.png)
 
 **Features:**
 - View and respond to user messages.
@@ -97,7 +97,7 @@ Manage and monitor all chat interactions from a centralized dashboard.
 
 Experience our project's landing page, designed for user engagement and information dissemination.
 
-![Landing Page](docs/images/landing.png)
+![Landing Page](images/landing.png)
 
 **Features:**
 - Responsive and user-friendly design.
