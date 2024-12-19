@@ -12,11 +12,32 @@ We designed a small app that lets users enter and receive assistance from variou
 
 ---
 
+### 🌐 Landing Page
+
+Entrypoint to the app.
+
+![Landing Page](images/landing.png)
+
+### 🛠️ API Testing
+
+Ensure the reliability and robustness of the integrations with this little API testing tool.
+
+![API Testing](images/api_test.png)
+
+
+### 💬 Chat Management
+
+Manage and monitor all chat interactions from a centralized dashboard.
+
+![Chat Management](images/chats.png)
+
+
+---
+
 ## 🎉 Integration Demonstrations
 
 Explore how our project integrates seamlessly with various third-party services. Below are the demonstrations showcasing the functionality of each integration. Messages are received in the accounts you have configured.
 
----
 
 ### 🤖 Telegram Integration
 
@@ -61,49 +82,4 @@ Stay updated with email notifications and manage your communications efficiently
 
 *Emails are received in the Gmail account you configured.*
 
----
 
-### 🛠️ API Testing
-
-Ensure the reliability and robustness of your integrations with our comprehensive API testing tools.
-
-![API Testing](images/api_test.png)
-
-**Features:**
-- Test API endpoints with ease.
-- Validate responses and error handling.
-- Integrate tests into your CI/CD pipeline.
-
-*API responses are directed to the accounts you have set up.*
-
----
-
-### 💬 Chat Management
-
-Manage and monitor all chat interactions from a centralized dashboard.
-
-![Chat Management](images/chats.png)
-
-**Features:**
-- View and respond to user messages.
-- Track chat histories and analytics.
-- Customize chat settings and preferences.
-
-*Chat messages are received in the accounts you have configured.*
-
----
-
-### 🌐 Landing Page
-
-Experience our project's landing page, designed for user engagement and information dissemination.
-
-![Landing Page](images/landing.png)
-
-**Features:**
-- Responsive and user-friendly design.
-- Information about project features and integrations.
-- Easy navigation and access to documentation.
-
-*User interactions are managed through the configured accounts.*
-
----
