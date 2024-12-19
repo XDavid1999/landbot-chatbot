@@ -35,10 +35,24 @@ const ChatView = () => {
       } finally {
         setLoading(false);
       }
+
+      // Add event listener when component mounts
+      window.addEventListener('keydown', handleKeyDown);
+
+      // Remove event listener when component unmounts
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+      };
     };
 
     fetchTopics();
   }, []);
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Escape') {
+      setSelectedTopic(null);
+    }
+  };
 
   // Function to handle conversation end
   const handleConversationEnd = async (conversation) => {
@@ -108,7 +122,7 @@ const ChatView = () => {
               onConversationEnd={handleConversationEnd}
             />
           ) : (
-            <div style={{ textAlign: 'center', marginTop: '20%' }}>
+            <div className="no-chat-message">
               <h2>Select a chat from the left to start!</h2>
               <PlayCircleOutlined className="big-icon" />
             </div>
