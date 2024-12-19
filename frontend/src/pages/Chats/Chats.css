@@ -1,0 +1,41 @@
+.chat-sider {
+    background: #fff;
+    border-right: 1px solid #f0f0f0;
+    margin-top: 15px;
+  }
+  
+  .sider-header {
+    padding: 16px;
+    background: #001529;
+    color: #fff;
+    text-align: center;
+  }
+  
+  .chat-content {
+    padding: 24px;
+    background: #f0f2f5;
+    height: 100%;
+    margin-bottom: 50px;
+  }
+  
+  .chat-topic {
+    cursor: pointer;
+    
+    span{
+      font-size: 30px;
+      align-items: center;
+      padding: 10px;
+    }
+  }
+
+  .selected{
+    background-color: #f0f2f5;
+  }
+
+  .big-icon{
+    font-size: 100px;
+  }
+
+  .chatbot {
+    height: 100%;
+  }

@@ -21,7 +21,8 @@ const Header = () => {
 
   return (
     <AntHeader className="header">
-      <div className="logo">Landbot Challenge</div>
+      <img src="/icon.png" alt="Landbot" className="logo" />
+      <div className="title">Landbot Challenge</div>
       <div className="desktop-menu">
         <Menu theme="dark" mode="horizontal" items={menuItems} />
       </div>

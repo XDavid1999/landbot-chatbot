@@ -15,7 +15,12 @@ class TopicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Topic
-        fields = "__all__"
+        fields = [
+            "name",
+            "description",
+            "notification",
+            "secure_storage_token",
+        ]
 
 
 class ChatMessageSerializer(serializers.Serializer):

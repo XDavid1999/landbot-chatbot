@@ -1,5 +1,3 @@
-/* frontend/src/pages/Landing.css */
-
 .landing-container {
     position: relative;
     width: 100%;
@@ -17,7 +15,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Dark overlay for better text readability */
+    background: #f9f9f9;
     z-index: 1;
   }
   
@@ -40,7 +38,7 @@
   }
   
   .subtitle {
-    color: #f0f0f0;
+    color: #000000;
     font-size: 1.5rem;
     max-width: 600px;
     animation: fadeIn 1.5s ease-out;

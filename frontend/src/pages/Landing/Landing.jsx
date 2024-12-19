@@ -11,9 +11,9 @@ const Landing = () => {
     <div className="landing-container">
       <div className="overlay"></div>
       <Space direction="vertical" size="large" align="center" className="content">
-        <Title className="main-title">Welcome to <span>MyApp</span></Title>
-        <Paragraph className="subtitle">Your gateway to awesome features!</Paragraph>
-        <Link to="/login">
+        <Title className="main-title">Welcome to <span>LandBot Challenge</span></Title>
+        <Paragraph className="subtitle">David Heredia</Paragraph>
+        <Link to="/topics">
           <Button type="primary" size="large" className="login-button" icon={<ArrowRightOutlined />}>
             Get Started
           </Button>
