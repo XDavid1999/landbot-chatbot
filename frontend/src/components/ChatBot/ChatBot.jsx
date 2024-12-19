@@ -122,9 +122,9 @@ const ChatBot = ({ topicId, botToken, onConversationEnd }) => {
   return (
     <div className="chatbot-container">
       <div className="chatbot-header">
-        <Text style={{ fontSize: 20 }} strong>
+        <Text className="chat-header" strong>
           🤖 {`Chatting about ${topicId}`}
-          <small className="header-hint">Press (esc) to exit</small>
+          <small className="chat-header-hint">Press (esc) to exit</small>
         </Text>
       </div>
 
@@ -157,7 +157,7 @@ const ChatBot = ({ topicId, botToken, onConversationEnd }) => {
                                 key={index}
                                 type="primary"
                                 onClick={() => handleButtonClick(button)}
-                                style={{ marginTop: 8, marginRight: 8 }}
+                                className="chat-buttons"
                               >
                                 {button}
                               </Button>

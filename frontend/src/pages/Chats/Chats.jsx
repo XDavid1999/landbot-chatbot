@@ -122,7 +122,7 @@ const ChatView = () => {
               onConversationEnd={handleConversationEnd}
             />
           ) : (
-            <div style={{ textAlign: 'center', marginTop: '20%' }}>
+            <div className="no-chat-message">
               <h2>Select a chat from the left to start!</h2>
               <PlayCircleOutlined className="big-icon" />
             </div>

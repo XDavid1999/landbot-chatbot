@@ -81,11 +81,25 @@
   margin-top: 8px;
 }
 
-.header-hint {
+.chat-header {
+  font-size: 20px;
+}
+
+.chat-header-hint {
   font-size: 0.75em;
   color: #999;
   margin-top: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.chat-buttons {
+  margin: 0px 8px;
+}
+
+.no-chat-message {
+  justify-content: center;
+  align-items: center;
+  margin-top: 20%;
 }
