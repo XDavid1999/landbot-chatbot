@@ -123,7 +123,7 @@ const ChatBot = ({ topicId, botToken, onConversationEnd }) => {
     <div className="chatbot-container">
       <div className="chatbot-header">
         <Text strong style={{ fontSize: '1.5rem' }}>
-          {`Chat with ${selectedTopicName(topicId)}`}
+          {`Chatting about ${topicId}`}
         </Text>
       </div>
 
@@ -239,12 +239,5 @@ function scrollToBottom() {
     });
   }
 }
-
-// Placeholder function to get topic name based on topicId
-// You may need to pass the topic name as a prop or manage it differently
-const selectedTopicName = (topicId) => {
-  // Implement this function based on your data structure
-  return `Topic ${topicId}`;
-};
 
 export default ChatBot;

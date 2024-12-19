@@ -50,9 +50,9 @@ const ChatView = () => {
         topic_id: selectedTopic.name,
         description: conversation,
       });
-      message.success(`Successfully resolved conversation for ${selectedTopic.name}`);
+      message.success(`Successfully sent conversation for ${selectedTopic.name}, to help you!`);
     } catch (err) {
-      message.error(`Failed to resolve conversation for ${selectedTopic.name}.`);
+      message.error(`Failed to sent conversation for ${selectedTopic.name}, to help you!`);
       console.error(err);
     } finally {
       setSelectedTopic(null);
