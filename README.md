@@ -3,6 +3,7 @@
 Welcome to this amazing project! 🎉 Here's everything you need to know to set it up, run it, and test it locally.
 
 ## 📚 Additional Docs
+- [Project Overview](docs/working_overview.md)
 - [Notification System Overview](docs/how_it_works.md)
 - [Adding New Services](docs/adding_new_services.md)
 - [Possible Improvements](docs/possible_improvements.md)
