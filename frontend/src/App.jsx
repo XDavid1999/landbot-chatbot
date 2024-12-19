@@ -1,12 +1,11 @@
-// src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Layout } from 'antd';
-import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
+import Header from '@components/Header/Header';
+import Footer from '@components/Footer/Footer';
 import Landing from './pages/Landing/Landing';
-import Hero from './components/Hero/Hero';
-import Features from './components/Features/Features';
+import Features from '@components/Features/Features';
+import Chats from './pages/Chats/Chats';
 
 import './App.css'; // We'll create or update this next
 
@@ -19,12 +18,12 @@ const App = () => {
         <Header />
         <Content className="content">
           <Routes>
-            <Route path="/" element={
+            <Route path="/topics" element={
               <Content className="content">
-                {/* <Hero /> */}
                 <Features />
               </Content>
             } />
+            <Route path="/chats" element={<Chats />} />
             <Route path="*" element={<Landing />} />
           </Routes>
         </Content>
