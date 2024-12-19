@@ -65,9 +65,9 @@ To access the Django admin panel at [http://localhost:8000/admin](http://localho
 
 ## 🤖 Integrating Services
 
-This project supports third-party services like Telegram and Slack:
+This project supports third-party services like Telegram, Slack and Landbot:
 - Add tokens in `.env`:
   - `TELEGRAM_BOT_TOKEN`
   - `SLACK_API_TOKEN`
 - ⚠️ Some example values are on database and they can be modified as desired from django admin to work properly.
-
+- Add your Landbot bot tokens on topics!.
