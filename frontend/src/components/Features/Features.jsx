@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Card, Typography, Spin, message, Input } from 'antd';
-import { MailOutlined, SlackSquareOutlined, SendOutlined } from '@ant-design/icons';
+import { MailOutlined, SlackSquareOutlined, SendOutlined, WechatOutlined } from '@ant-design/icons';
 import './Features.css';
 import axiosInstance from 'api/axiosInstance';
 
@@ -111,6 +111,16 @@ const Features = () => {
             </Card>
           </Col>
         ))}
+        <Col xs={24} sm={12} md={8}>
+          <a href="/chats">
+            <Card className="feature-card" hoverable>
+              <div className="feature-icon">
+                <WechatOutlined />
+              </div>
+              <Card.Meta title="Chats" description="Chat with the bot" />
+            </Card>
+          </a>
+        </Col>
       </Row>
     </section>
   );

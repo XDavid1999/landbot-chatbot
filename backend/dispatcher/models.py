@@ -3,6 +3,7 @@ from backend.utils.django.models.mixins import TimestampedModel
 from dispatcher.services.telegram import TelegramService
 from dispatcher.services.slack import SlackService
 from dispatcher.services.email import EmailService
+import os
 
 
 class Notification(TimestampedModel):
@@ -56,6 +57,13 @@ class Topic(TimestampedModel):
         related_name="topic",
         null=True,
     )
+    # reference to the chatbot token on a secure storage
+    chatbot_token = models.CharField(max_length=255, null=True)
+
+    @property
+    def secure_storage_token(self):
+        # mock the retrieval of the chatbot token
+        return self.chatbot_token
 
     def __str__(self):
         return f"{self.name} - {self.notification}"
