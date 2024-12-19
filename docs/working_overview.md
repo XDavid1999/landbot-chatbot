@@ -8,7 +8,7 @@ Implementing a conversational experience can be tricky. With the latest release 
 
 ### 🛠️ What We Built
 
-We designed a small app that lets users enter and receive assistance from various bots tailored to their requirements. This application serves as a foundation for creating custom conversational experiences, enhancing user engagement and streamlining interactions.
+We designed a small app that lets users enter and receive assistance from various bots tailored to their requirements. This application could serve as a foundation for creating custom conversational experiences, enhancing user engagement and streamlining interactions. For testing purposes I created a Landbot account for creating the three different bots we use on examples.
 
 ---
 
