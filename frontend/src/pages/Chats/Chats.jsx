@@ -35,10 +35,24 @@ const ChatView = () => {
       } finally {
         setLoading(false);
       }
+
+      // Add event listener when component mounts
+      window.addEventListener('keydown', handleKeyDown);
+
+      // Remove event listener when component unmounts
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+      };
     };
 
     fetchTopics();
   }, []);
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Escape') {
+      setSelectedTopic(null);
+    }
+  };
 
   // Function to handle conversation end
   const handleConversationEnd = async (conversation) => {

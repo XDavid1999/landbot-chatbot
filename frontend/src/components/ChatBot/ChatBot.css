@@ -81,3 +81,11 @@
   margin-top: 8px;
 }
 
+.header-hint {
+  font-size: 0.75em;
+  color: #999;
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

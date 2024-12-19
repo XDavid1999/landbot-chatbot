@@ -122,8 +122,9 @@ const ChatBot = ({ topicId, botToken, onConversationEnd }) => {
   return (
     <div className="chatbot-container">
       <div className="chatbot-header">
-        <Text strong style={{ fontSize: '1.5rem' }}>
-          {`Chatting about ${topicId}`}
+        <Text style={{ fontSize: 20 }} strong>
+          🤖 {`Chatting about ${topicId}`}
+          <small className="header-hint">Press (esc) to exit</small>
         </Text>
       </div>
 
