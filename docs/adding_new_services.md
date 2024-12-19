@@ -114,5 +114,3 @@ class Notification(TimestampedModel):
 3. **Test Your Integration**:
    - Write unit tests to validate your service and ensure the end-to-end flow works seamlessly.
 
----
-

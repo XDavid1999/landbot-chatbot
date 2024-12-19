@@ -10,7 +10,7 @@
 - **Status** (`Sent`, `Failed`, `Retrying`).
 - **Metadata** (recipient, timestamp, error message).
 
-    ##### Why Use Elasticsearch for Logs?
+    ### Why Use Elasticsearch for Logs?
     - **Full-Text Search:** Elasticsearch provides a fast and powerful search interface to query logs, perfect for filtering and analyzing large datasets.
     - **Centralized Logging:** Store all logs in Elasticsearch to aggregate notifications, API errors, and task retries in one place.
     - **Real-Time Analytics:** Elasticsearch enables dashboards (via Kibana) to visualize metrics like message delivery success rates or performance by platform in real time.

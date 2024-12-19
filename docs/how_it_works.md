@@ -11,7 +11,7 @@ This project enables sending notifications via multiple channels (Email, Slack, 
      - Defines the method (`Email`, `Slack`, `Telegram`) and its corresponding configuration (`config`).
      - Validates the provided configuration and associates it with a service handler.
    - `Topic`:
-     - Groups notifications under a named context. Each topic has a unique name, description, and associated notification method.
+     - Groups notifications under a named context. Each topic has a unique name, description, chatbot_token, and associated notification method.
 
 2. **Services**:
    Each notification method has a corresponding service class that:
@@ -33,6 +33,4 @@ This project enables sending notifications via multiple channels (Email, Slack, 
    When a message is to be sent, the system:
    - Determines the notification method (based on the `method` field in the `Notification` model).
    - Invokes the corresponding service class to deliver the message.
-
----
 
