@@ -22,7 +22,7 @@ Welcome to this amazing project! 🎉 Here's everything you need to know to set 
 2. **Create a `.env` file:**
    Inside the project root, create a `.env` file based on `template.env`. 
     ```bash
-    cp emplate.env .env
+    cp template.env .env
     ```
    Fill in the required values, particularly:
    - `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`
