@@ -77,7 +77,6 @@ Stay updated with email notifications and manage your communications efficiently
 
 **Features:**
 - Send automated emails for various triggers.
-- Receive and handle incoming emails.
 - Secure email handling with environment configurations.
 
 *Emails are received in the Gmail account you configured.*
