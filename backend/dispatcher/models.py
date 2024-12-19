@@ -3,7 +3,6 @@ from backend.utils.django.models.mixins import TimestampedModel
 from dispatcher.services.telegram import TelegramService
 from dispatcher.services.slack import SlackService
 from dispatcher.services.email import EmailService
-import os
 
 
 class Notification(TimestampedModel):

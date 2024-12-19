@@ -102,9 +102,9 @@ const ChatView = () => {
           {selectedTopic ? (
             <ChatBot
               className="chatbot"
-              key={selectedTopic.name} // Ensures ChatBot resets when topic changes
+              key={selectedTopic.name}
               topicId={selectedTopic.name}
-              botToken={selectedTopic.secure_storage_token} // Assuming each topic has a 'botToken'
+              botToken={selectedTopic.secure_storage_token}
               onConversationEnd={handleConversationEnd}
             />
           ) : (
