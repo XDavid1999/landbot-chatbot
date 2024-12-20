@@ -1,4 +1,3 @@
-# 🚀 Configuration Steps 🚀
 
 Welcome to this amazing project! 🎉 Here's everything you need to know to set it up, run it, and test it locally.
 
@@ -10,6 +9,8 @@ Welcome to this amazing project! 🎉 Here's everything you need to know to set 
 - [Defense](docs/defense.md)
 
 ---
+
+# 🚀 Configuration Steps 🚀
 
 ## 🛠️ Getting Started
 
